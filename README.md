@@ -1,8 +1,19 @@
-<p align="center"><img src="https://ohmyzsh.s3.amazonaws.com/omz-ansi-github.png" alt="Oh My Zsh"></p>
+## 感谢 oh-my-zsh
+## 自定义主题&删除无用插件
 
-Oh My Zsh is an open source, community-driven framework for managing your [zsh](https://www.zsh.org/) configuration.
+### 分支后两个状态分别代表本地分支状态和远程分支状态
 
-Sounds boring. Let's try again.
+本地分支
+> =本地分支未改动
+> *本地分支有改动未提交
+> ↑本地分支有改动未push
+> 冲突 本地分支有冲突
+
+远程分支
+> =远程分支未改动
+> ↓远程分支有改动未pull
+> ?未跟踪
+<p align="left"><img src="https://github.com/wangzhen-CHN/ohmyzsh/blob/master/WX20220311.png" alt="Oh My Zsh"></p>
 
 **Oh My Zsh will not make you a 10x developer...but you may feel like one.**
 

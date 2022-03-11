@@ -61,7 +61,7 @@ git_status() {
       exit 0
   fi
 
-###### 检查本地 仓库 状态
+##### 检查本地 仓库 状态
   _INDEX=$(command git status --porcelain -b 2> /dev/null)
   if $(echo "$_INDEX" | command grep -q '^## .*origin'); then
 
