@@ -22,20 +22,21 @@ local return_code="%(?..%{$R%}%? ↵%{$RESET%})"
 # get the name of the branch we are on (copied and modified from git.zsh)
 function custom_git_prompt() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX%{$B%}${ref#refs/heads/}$(git_status)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX%{$B%}$(git_branch)$(git_status)$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-# 获取分支状态
+# 2> /dev/null 屏蔽输出结果
+###### 获取分支名称
 git_branch () {
   ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
   ref=$(command git rev-parse --short HEAD 2> /dev/null) || return
   echo "${ref#refs/heads/}"
 }
-
+###### 获取分支状态
 git_status() {
   _FILE_STATUS=""   #本地文件状态
   _BRANCH_STATUS="" #本地分支状态
-  ###### 检查本地 文件 状态
+  #检查本地 文件 状态
   _INDEX=$(command git status --porcelain 2> /dev/null)
   if [[ -n "$_INDEX" ]]; then
     if $(echo "$_INDEX" | command grep -q '^[AMRD]. '); then      #修改
@@ -54,36 +55,43 @@ git_status() {
     _FILE_STATUS="$ZSH_THEME_GIT_PROMPT_CLEAN"                         #无修改
   fi
 
-
-  if [ $_FILE_STATUS = $ZSH_THEME_GIT_PROMPT_UNMERGED ]; then          #冲突后不判断仓库状态
+  #冲突后不判断仓库状态
+  if [ $_FILE_STATUS = $ZSH_THEME_GIT_PROMPT_UNMERGED ]; then          
       echo $_FILE_STATUS
       exit 0
   fi
 
-  ###### 检查本地 仓库 状态
+###### 检查本地 仓库 状态
   _INDEX=$(command git status --porcelain -b 2> /dev/null)
-  _flag="0"
   if $(echo "$_INDEX" | command grep -q '^## .*origin'); then
-   
-      if $(echo "$_INDEX" | command grep -q '^## .*ahead'); then    #超前（本地有更新 需push）
-        _BRANCH_STATUS="$ZSH_THEME_GIT_PROMPT_AHEAD"
-        _flag="1"
+
+      #超前（本地有更新 需push）
+      if $(echo "$_INDEX" | command grep -q '^## .*ahead'); then    
+        echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_AHEAD"
+        exit 
       fi
-      if $(echo "$_INDEX" | command grep -q '^## .*behind'); then   #落后 （远程有更新 需pull）
-        _BRANCH_STATUS="$ZSH_THEME_GIT_PROMPT_BEHIND"
-        _flag="1"
+      #落后（远程有更新 需pull）
+      if $(echo "$_INDEX" | command grep -q '^## .*behind'); then    
+        echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_BEHIND"
+        exit 
       fi
-      if $(echo "$_INDEX" | command grep -q '^## .*diverged'); then #偏离
-        _BRANCH_STATUS="$ZSH_THEME_GIT_PROMPT_DIVERGED"
-        _flag="1"
+      #偏离
+      if $(echo "$_INDEX" | command grep -q '^## .*diverged'); then 
+        echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_DIVERGED"
+        exit 
       fi
-      if $(echo "$_flag" | command grep -q "0"); then               #无修改
-        _BRANCH_STATUS="%{$G%}="
-      fi
+      #无修改
+      echo "$_FILE_STATUS$ZSH_THEME_GIT_PROMPT_CLEAN"
+      exit 
+      # if $(echo "$_flag" | command grep -q "0"); then               
+      #  echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_CLEAN"
+      #  exit 
+      # fi
   else  
-    _BRANCH_STATUS=" 未跟踪 " #未提交远程
+    #未提交远程
+    echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_UNTRACKED"
+    exit 
   fi
-  echo "$_FILE_STATUS $_BRANCH_STATUS"
 }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -100,17 +108,6 @@ ZSH_THEME_GIT_PROMPT_BEHIND="%{$R%}↓"
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$B%}↑"
 ZSH_THEME_GIT_PROMPT_DIVERGED="%{$B%}Ψ"
 
-
-ZSH_THEME_GIT_STATUS_PREFIX=" "
-
-# Staged
-ZSH_THEME_GIT_PROMPT_STAGED_ADDED="%{$G%}A"
-ZSH_THEME_GIT_PROMPT_STAGED_MODIFIED="%{$G%}M"
-ZSH_THEME_GIT_PROMPT_STAGED_RENAMED="%{$G%}R"
-ZSH_THEME_GIT_PROMPT_STAGED_DELETED="%{$G%}D"
-
 # Not-staged
-ZSH_THEME_GIT_PROMPT_UNTRACKED="% {$R%}?"
-ZSH_THEME_GIT_PROMPT_MODIFIED="% {$R%}M"
-ZSH_THEME_GIT_PROMPT_DELETED="% {$R%}D"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$R%}?"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$R%} 冲突"
