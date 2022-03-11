@@ -8,7 +8,7 @@
 - <font color=#c71d24 >*</font> 本地分支有改动未提交 
 - <font color=#0969da >↑</font> 本地分支有改动未push 
 - <font color=#c71d24 >冲突</font> 本地分支有冲突
-$\color{red} {Red} $
+
 
 远程分支
 - <font  color=#2c974b>=</font> 远程分支未改动
