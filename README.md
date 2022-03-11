@@ -4,23 +4,23 @@
 ### 分支后两个状态分别代表本地分支状态和远程分支状态
 
 本地分支
-> =本地分支未改动
+> <span style="color:#2c974b">=</span>本地分支未改动
 
-> *本地分支有改动未提交
+> <span style="color:#c71d24">*</span>本地分支有改动未提交
 
-> ↑本地分支有改动未push
+> <span style="color:#0969da">↑</span>本地分支有改动未push
 
 > 冲突 本地分支有冲突
 
 
 远程分支
-> =远程分支未改动
+> <span style="color:#2c974b">=</span>远程分支未改动
 
-> ↓远程分支有改动未pull
+> <span style="color:#0969da">↓</span>远程分支有改动未pull
 
-> ?未跟踪
+> <span style="color:#c71d24">?</span>未跟踪
 
-<p align="left"><img src="https://github.com/wangzhen-CHN/ohmyzsh/blob/master/WX20220311.png" alt="Oh My Zsh"></p>
+<p align="left"><img src="https://github.com/wangzhen-CHN/ohmyzsh/blob/master/20220311.png" alt="Oh My Zsh"></p>
 
 **Oh My Zsh will not make you a 10x developer...but you may feel like one.**
 
