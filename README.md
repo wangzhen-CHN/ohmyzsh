@@ -5,14 +5,21 @@
 
 本地分支
 > =本地分支未改动
+
 > *本地分支有改动未提交
+
 > ↑本地分支有改动未push
+
 > 冲突 本地分支有冲突
+
 
 远程分支
 > =远程分支未改动
+
 > ↓远程分支有改动未pull
+
 > ?未跟踪
+
 <p align="left"><img src="https://github.com/wangzhen-CHN/ohmyzsh/blob/master/WX20220311.png" alt="Oh My Zsh"></p>
 
 **Oh My Zsh will not make you a 10x developer...but you may feel like one.**
