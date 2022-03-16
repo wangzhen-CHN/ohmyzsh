@@ -64,15 +64,14 @@ git_status() {
 ##### 检查本地 仓库 状态
   _INDEX=$(command git status --porcelain -b 2> /dev/null)
   if $(echo "$_INDEX" | command grep -q '^## .*origin'); then
-
-      #超前（本地有更新 需push）
-      if $(echo "$_INDEX" | command grep -q '^## .*ahead'); then    
-        echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_AHEAD"
-        exit 
-      fi
       #落后（远程有更新 需pull）
       if $(echo "$_INDEX" | command grep -q '^## .*behind'); then    
         echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_BEHIND"
+        exit 
+      fi
+      #超前（本地有更新 需push）
+      if $(echo "$_INDEX" | command grep -q '^## .*ahead'); then    
+        echo "$_FILE_STATUS $ZSH_THEME_GIT_PROMPT_AHEAD"
         exit 
       fi
       #偏离
